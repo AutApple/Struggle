@@ -11,16 +11,22 @@ namespace Struggle
     class Core
     {
         private RenderWindow _window;
-        public Entity testEntity;
-        private List<Entity> _entities;
+        private Dictionary<int, Entity> _entities;
+   
         Client _client;
         uint _fraction;
+
+         
+
+        bool spectator = false;
+
+
         public uint Fraction
         {
             get { return _fraction; }
-            set { _fraction = value;  }
+            set { _fraction = value; }
         }
-        bool spectator = false;
+
         public Core()
         {
             Console.Write("IP: ");
@@ -38,13 +44,17 @@ namespace Struggle
             _window.KeyPressed += new EventHandler<KeyEventArgs>(OnKeyP);
 
 
-            _entities = new List<Entity>();
-           
-            _client.SendData(Encoding.ASCII.GetBytes("f"));
+            _entities = new Dictionary<int, Entity>();
+
+            string buffer = "";
+            buffer = "i";
+            _client.SendData(Encoding.ASCII.GetBytes(buffer));
+             
+ 
             if (_fraction == 5)
                 spectator = true;
 
-
+   
            
             while (_window.IsOpen)
             {
@@ -52,35 +62,59 @@ namespace Struggle
                 Draw();
             }
         }
-
+   
         private void OnClosed(object sender, EventArgs e)
         {
             _client.Disconnect();
             _window.Close();
         }
 
-        public void SpawnEntity(int x, int y, uint fraction, uint radius)
+        public void SpawnEntity(int x, int y, uint fraction, uint radius, int id)
         {
             Entity e = new Entity(new Vector2i(x, y), fraction, radius);
-            _entities.Add(e);
+            _entities.Add(id, e);
         }
+
+        public void RemoveEntity(int id)
+        {
+            _entities.Remove(id);
+        }
+
+        public void RemoveFractionEntities(int f)
+        {
+            foreach(KeyValuePair<int, Entity> e in _entities)
+            {
+                if (e.Value.Fraction == f)
+                    _entities.Remove(e.Key);
+            }
+        }
+
+
         private void Tick()
         {
             _window.DispatchEvents();
+
+
+           
         }
         private void Draw()
         {
             _window.Clear(new Color(20, 20, 20, 255));
             //drawing stuff
-            foreach(Entity e in _entities)
-                e.Draw(_window);
+            foreach (KeyValuePair<int, Entity> e in _entities)
+                e.Value.Draw(_window);
             _window.Display();
         }
-
+        public void Stop()
+        {
+          
+            _window.Close();
+        }
         private void OnKeyP(object sender, KeyEventArgs e)
         {
                 
             
         }
+ 
     }
 }

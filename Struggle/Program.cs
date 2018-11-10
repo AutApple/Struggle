@@ -7,6 +7,7 @@ namespace Struggle
       static void Main()
       {
             Core core = new Struggle.Core();
+             
       }    
     }
 }

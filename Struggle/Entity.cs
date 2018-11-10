@@ -42,7 +42,6 @@ namespace Struggle
         public void Draw(RenderWindow window)
         {
             CircleShape shape = new CircleShape(radius, 40);
-            Console.WriteLine("FRAC " + fraction.ToString());
             switch (fraction)
             {
                 case 1:
