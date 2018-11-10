@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Struggle", "Struggle\Struggle.csproj", "{50F558BF-7A98-4BBF-8C6E-284D3712DDFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Struggle\Client.csproj", "{50F558BF-7A98-4BBF-8C6E-284D3712DDFF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF945D78-478F-43B2-9E7B-F51983C2D017}"
 EndProject
