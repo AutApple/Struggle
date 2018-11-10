@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+ <world width = "3072" height = "2304" name = "es_map_default">
+ 
+  
+ <entity fraction="0" x="250" y="250" type = "bow" size = "6"/>
+ <entity fraction="1" x="2822" y="2504" type = "bow" size = "6"/>
+ <entity fraction="2" x="250" y="2504" type = "bow" size = "6"/>
+ <entity fraction="3" x= "2822" y ="250"  type = "bow" size = "6" />
+
+ <parts type="random" />
+
+</world>
+ 

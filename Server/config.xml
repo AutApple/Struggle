@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is Eternal Struggle server configuration file !-->
+
+  
+<config
+     maxPlayers = "25"                        
+     maxEntities = "1000" 
+     port = "7777"
+     defaultFraction = "0"
+/>

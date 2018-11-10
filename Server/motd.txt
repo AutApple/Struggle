@@ -1,0 +1,1 @@
+﻿Welcome to Eternal Struggle prototype server. Press 'C' to open chat
