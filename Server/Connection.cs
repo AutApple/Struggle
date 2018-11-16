@@ -7,15 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace Eternal_Struggle_Server
+namespace Struggle
 {
     class Connection
     {
-        public Socket socket {
+        public Socket socket
+        {
             get;
             private set;
         }
-        public int id {
+        public int id
+        {
             private set;
             get;
         }
@@ -33,14 +35,14 @@ namespace Eternal_Struggle_Server
 
         public byte[] data;
 
- 
-        
+
+
         public int fraction { get; private set; }
 
         /*Entities stuff*/
-       
-         
- 
+
+
+
 
         public Connection(Socket socket, int id, int fraction)
         {
@@ -50,15 +52,13 @@ namespace Eternal_Struggle_Server
             this.fraction = fraction;
             data = new byte[128];
             nick = "Player";
-
-        
         }
 
-         
         public void SetFraction(int fraction)
         {
             this.fraction = fraction;
         }
+
         public void SetupTimeout(ref ConcurrentDictionary<int, Connection> connections, ref IdMap ids)
         {
             refConnections = connections;
@@ -73,41 +73,32 @@ namespace Eternal_Struggle_Server
 
         public void Release()
         {
-            
-            
-
             timeoutTimer.Close();
             timeoutTimer.Dispose();
 
-          
             Connection c = this;
 
             refIds.releaseId(c.id);
             refConnections.TryRemove(id, out c);
- 
         }
+
         public void ChangeNickname(string nick)
         {
             this.nick = nick;
         }
+
         private void timeoutEvent(object sender, ElapsedEventArgs e)
         {
-       //     if (timeoutFlag)
-        //    {
-
-         //       timeoutFlag = false;
-       //          socket.Send(new byte[1] { 0 });
-      //      }
-       //     else
-       //     {
-      //          Console.WriteLine("[Server] {0} reached timeout! Disconnecting...", id);
-             
-     //           Release();
-      //      }
-            
+            if (timeoutFlag)
+            {
+                timeoutFlag = false;
+                socket.Send(new byte[1] { 0 });
+            }
+            else
+            {
+                Console.WriteLine("[Server] {0} reached timeout! Disconnecting...", id);
+                Release();
+            }
         }
-
-  
-
     }
 }

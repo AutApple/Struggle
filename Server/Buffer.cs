@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eternal_Struggle_Server
+namespace Struggle
 {
     class Buffer
     {

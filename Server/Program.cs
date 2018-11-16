@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eternal_Struggle_Server
+namespace Struggle
 {
     class Program
     {
         static void Main(string[] args)
         {
             Configuration.Setup();
-            
+
             string strmp, strport, strentmax,
                    strdeffrac;
-            
+
             Configuration.paramList.TryGetValue("port", out strport);
             Configuration.paramList.TryGetValue("maxPlayers", out strmp);
             Configuration.paramList.TryGetValue("maxEntities", out strentmax);
@@ -23,21 +23,18 @@ namespace Eternal_Struggle_Server
             short config_port;
             int config_maxPlayers, config_maxEntities, config_defaultFraction;
 
-
             try
             {
                 config_port = short.Parse(strport);
                 config_maxPlayers = int.Parse(strmp);
                 config_maxEntities = int.Parse(strentmax);
                 config_defaultFraction = int.Parse(strdeffrac);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine("[Server] Oops, something is wrong with config. ");
                 return;
             }
-
-            
-
 
             try
             {
@@ -49,7 +46,8 @@ namespace Eternal_Struggle_Server
                 {
                     Console.ReadLine();
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine("[Server] Something went wrong  while initializing server.");
             }

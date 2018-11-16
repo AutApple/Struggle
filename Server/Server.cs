@@ -2,11 +2,10 @@
 [Argument]
 
 incoming ops:
-	0 - -player responds timeout
+	0 - player responds timeout
 	1 - player requests timeout
 	2 - player sends message directly to server
 	3 - player changes nickname
-
 
     [Entities group]
 	4 - player changes  x entity buffer
@@ -14,8 +13,6 @@ incoming ops:
     6 - player changes size entity buffer
 	7 - player creates entity 
 	8 - player updates entity
-
-
 
 outcoming ops:
 	  0 - server sends test package to check client's responsability
@@ -31,63 +28,40 @@ outcoming ops:
 
 */
 
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.IO;
 
-namespace Eternal_Struggle_Server
+namespace Struggle
 {
     class Server
     {
-
         Socket socket;
-
-
-
         ConcurrentDictionary<int, Connection> connections;
         IdMap connectionIds;
-
-
         EntityContainer entc;
 
         WorldMap worldMap;
 
         int defaultFraction;
 
-
         public Server(short port, int maxPlayers, int maxEntities, int defaultFraction)
         {
-
-
-
             this.defaultFraction = defaultFraction;
-
-
-
 
             connections = new ConcurrentDictionary<int, Connection>();
             connectionIds = new IdMap(maxPlayers);
 
             worldMap = new WorldMap(maxEntities, "map.xml");
             entc = worldMap.entityContainer;
-
-
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-
             socket.Bind(new IPEndPoint(IPAddress.Any, port));
             socket.Listen(maxPlayers);
-
-
-
         }
+
         public async void AcceptAsync()
         {
             if (socket != null)
@@ -100,13 +74,7 @@ namespace Eternal_Struggle_Server
                     int connectionId = connectionIds.getId();
                     Connection c = new Connection(connection, connectionId, connectionId);
 
-                     
-
-
-
                     connections.TryAdd(connectionId, c);
-
-
                     c.SetupTimeout(ref connections, ref connectionIds);
 
                     Buffer buff = new Buffer();
@@ -137,8 +105,6 @@ namespace Eternal_Struggle_Server
 
                     connection.Send(buff.GetBytes(), 0, buff.Tell(), 0);
 
-
-
                     string[] motd = File.ReadAllLines("motd.txt");
 
                     foreach (string str in motd)
@@ -151,17 +117,14 @@ namespace Eternal_Struggle_Server
                     }
                     buff.Clear();
 
-
                     //worldMap.entityContainer.sendClient(ref c);
                     entc.sendClient(ref c);
-
+                     
                     RecieveDataAsync(c);
-
                 }
                 AcceptAsync();
             }
         }
-
 
         public Task<Socket> AsyncTask()
         {
@@ -172,7 +135,6 @@ namespace Eternal_Struggle_Server
             });
         }
 
-     
         public async void RecieveDataAsync(Connection c)
         {
 

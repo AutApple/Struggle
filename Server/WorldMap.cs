@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 
 
-namespace Eternal_Struggle_Server
+namespace Struggle
 {
     class WorldMap
     {
