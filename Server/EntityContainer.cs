@@ -16,7 +16,7 @@ namespace Struggle
      //   public short sizeBuffer;
 
 
-
+        
         public EntityContainer(int maxEntities)
         {
             entities = new ConcurrentDictionary<int, Entity>();
