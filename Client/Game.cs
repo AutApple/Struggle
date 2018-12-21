@@ -1,45 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using SFML;
+﻿using System.Collections.Generic;
 using SFML.Graphics;
-using SFML.Window;
-using System.Text;
-using SFML.System;
 
 namespace Struggle
 {
-    class Core
+    class Game
     {
-        //Client _client;
-        List<Entity> entities;
-        RenderWindow app;
-        public Core()
+        List<Fraction> fractions;
+
+        public void Run(RenderWindow app)
         {
-            app = new RenderWindow(new VideoMode(640, 480), "Struggle");
-            entities = new List<Entity>();
-
-            entities.Add(new Entity(new Vector2i(100, 100), 0, 32));
-            entities.Add(new Entity(new Vector2i(200, 200), 1, 32));
-
-            // Console.Write("IP: ");
-            // string ip = Console.ReadLine();
-            // Console.Write("Port: ");
-            // int port = int.Parse(Console.ReadLine());
-            // _client = new Client(this);
-            // _client.Connect(ip, port);
             while (app.IsOpen)
             {
                 app.Clear();
-                Draw();
+                app.DispatchEvents();
+                Draw(app);
                 app.Display();
- 
             }
         }
 
-        public void Draw()
+        public Game()
+        {      
+            fractions = new List<Fraction>();
+            fractions.Add(new Fraction(Color.Blue, 0));
+            fractions[0].AddEntity(new Warrior(new SFML.System.Vector2f(64, 64), fractions[0], 16));
+        }
+
+        public void Draw(RenderWindow app)
         {
-            foreach (Entity e in entities)
-                e.Draw(app);
+            foreach (Fraction f in fractions)
+                f.Draw(app);
         }
     }
 }
