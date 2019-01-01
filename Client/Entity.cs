@@ -11,10 +11,18 @@ namespace Struggle
         private Fraction fraction;
 
         private bool moving;
-        protected bool selected;
+        private bool selected;
 
         private Vector2f destination, velocity;
         private float acceleration;
+
+        public Vector2f Position
+        {
+            get
+            {
+                return coords;
+            }
+        }
 
         public Entity(Vector2f crd, uint m = 5)
         {
@@ -47,10 +55,6 @@ namespace Struggle
             
         }
 
-        public Vector2f GetCoords()
-        {
-            return coords;
-        }
 
         public uint GetMass()
         {

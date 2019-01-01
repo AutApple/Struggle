@@ -38,12 +38,27 @@ namespace Struggle
         {
             foreach(Entity e in entities)
             {
-                float dx = Math.Abs(e.GetCoords().X - coords.X);
-                float dy = Math.Abs(e.GetCoords().Y - coords.Y);
+                float dx = Math.Abs(e.Position.X - coords.X);
+                float dy = Math.Abs(e.Position.Y - coords.Y);
 
                 uint r = e.GetMass();
                 
                 if(r * r > dx*dx + dy*dy)
+                    e.Select();
+            }
+        }
+
+        public void SelectEntityRectangle(RectangleShape rect)
+        {
+            float xMin = Math.Min(rect.Position.X, rect.Position.X + rect.Size.X);
+            float yMin = Math.Min(rect.Position.Y, rect.Position.Y + rect.Size.Y);
+            float xMax = Math.Max(rect.Position.X, rect.Position.X + rect.Size.X);
+            float yMax = Math.Max(rect.Position.Y, rect.Position.Y + rect.Size.Y);
+
+            foreach (Entity e in entities)
+            {
+                if (e.Position.X >= xMin && e.Position.X <= xMax
+                   && e.Position.Y >= yMin && e.Position.Y <= yMax)
                     e.Select();
             }
         }

@@ -1,21 +1,23 @@
 ﻿using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 
 namespace Struggle
 {
     class Game
     {
         List<Fraction> fractions;
-
+        EventHandler ec;
         public void Run(RenderWindow app)
         {
             Fraction playersFraction = fractions[0];
-            EventHandler ec = new EventHandler(ref playersFraction);
+            ec = new EventHandler(ref playersFraction);
 
             app.Closed += ec.Window_Closed;
             app.MouseButtonPressed += ec.Mouse_Pressed;
             app.MouseMoved += ec.Mouse_Moved;
+            app.MouseButtonReleased += ec.Mouse_Released;
 
             while (app.IsOpen)
             {
@@ -52,6 +54,18 @@ namespace Struggle
         {
             foreach (Fraction f in fractions)
                 f.Draw(app);
+            if (ec.LeftMouseButton_Hold)
+                DrawSelection(app, ec.LeftMouseButton_Hold_Coords);
+        }
+
+        public void DrawSelection(RenderWindow app, Vector2f coords)
+        {
+            RectangleShape rect = new RectangleShape();
+            rect.Position = coords;
+            rect.Size = new Vector2f(Mouse.GetPosition(app).X - coords.X, Mouse.GetPosition(app).Y - coords.Y);
+            rect.FillColor = new Color(0, 250, 0, 100);
+            
+            app.Draw(rect);
         }
     }
 }
