@@ -20,5 +20,11 @@ namespace Struggle
             base.Draw(app);
             app.Draw(title);
         }
+
+        public override void Update()
+        {
+            base.Update();
+            title.Position = coords;
+        }
     }
 }

@@ -68,7 +68,13 @@ namespace Struggle
             foreach (Entity e in entities)
                 e.Draw(window);
         }
-
+        public void UpdateEntitiesMovement(Vector2f coords)
+        {
+            foreach (Entity e in entities)
+            {
+                e.Move(coords, 0.01f / e.GetMass());
+            }
+        }
         public void UpdateEntities()
         {
             foreach(Entity e in entities)

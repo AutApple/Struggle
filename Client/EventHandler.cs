@@ -62,7 +62,7 @@ namespace Struggle
 
         public void Mouse_Moved(object sender, MouseMoveEventArgs e)
         {
-
+            fr.UpdateEntitiesMovement(new Vector2f(e.X, e.Y));
         }
     }
 }

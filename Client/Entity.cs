@@ -13,8 +13,8 @@ namespace Struggle
         private bool moving;
         private bool selected;
 
-        private Vector2f destination, velocity;
-        private float acceleration;
+        private Vector2f destination;
+        private float acceleration, speed;
 
         public Vector2f Position
         {
@@ -51,8 +51,8 @@ namespace Struggle
                 selection.Position = new Vector2f(coords.X - (ushort)mass, coords.Y - (ushort)mass);
                 window.Draw(selection);
             }
-            window.Draw(shape);
-            
+
+            window.Draw(shape); 
         }
 
 
@@ -68,18 +68,14 @@ namespace Struggle
 
         public virtual void Update()
         {
-            if (moving)
-            {
-
-            }
+            if (selected)
+                coords += (destination - coords) * speed;
         }
 
-        public void Move(Vector2f destination, Vector2f velocity, float acceleration)
+        public void Move(Vector2f destination, float speed)
         {
-            moving = selected;
             this.destination = destination;
-            this.velocity = velocity;
-            this.acceleration = acceleration;
+            this.speed = speed;
         }
     }
 }
