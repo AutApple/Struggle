@@ -2,16 +2,19 @@
 using SFML.Graphics;
 using SFML.System;
 
+
 namespace Struggle
 {
     class Entity
     {
         protected Vector2f coords; 
-        private uint mass;
-        private Fraction fraction;
+        protected uint mass;
 
-        private bool moving;
+        protected Fraction fraction;
+
         private bool selected;
+
+        protected Text title;
 
         private Vector2f destination;
         private float acceleration, speed;
@@ -24,6 +27,14 @@ namespace Struggle
             }
         }
 
+        public uint Mass
+        {
+            get
+            {
+                return mass;
+            }
+        }
+        
         public Entity(Vector2f crd, uint m = 5)
         {
             mass = m;
@@ -52,13 +63,8 @@ namespace Struggle
                 window.Draw(selection);
             }
 
-            window.Draw(shape); 
-        }
-
-
-        public uint GetMass()
-        {
-            return mass;
+            window.Draw(shape);
+            window.Draw(title);
         }
 
         public virtual void Select()
@@ -69,10 +75,14 @@ namespace Struggle
         public virtual void Update()
         {
             if (selected)
-                coords += (destination - coords) * speed;
+            {
+                coords += ((destination - coords) / (float)Math.Sqrt(Math.Pow((destination - coords).X, 2) + Math.Pow((destination - coords).Y, 2))) * speed;
+                fraction.HandleCollisions();
+            }
+            title.Position = coords;
         }
 
-        public void Move(Vector2f destination, float speed)
+        public void Target(Vector2f destination, float speed)
         {
             this.destination = destination;
             this.speed = speed;

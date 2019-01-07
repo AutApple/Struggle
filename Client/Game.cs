@@ -2,6 +2,7 @@
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using System;
 
 namespace Struggle
 {
@@ -33,10 +34,10 @@ namespace Struggle
         {      
             fractions = new List<Fraction>();
 
-            fractions.Add(new Fraction(Color.Blue, 0));
-            fractions.Add(new Fraction(Color.Red, 1));
-            fractions.Add(new Fraction(Color.Green, 2));
-            fractions.Add(new Fraction(Color.Magenta, 3));
+            fractions.Add(new Fraction(Color.Blue, 0, this));
+            fractions.Add(new Fraction(Color.Red, 1, this));
+            fractions.Add(new Fraction(Color.Green, 2, this));
+            fractions.Add(new Fraction(Color.Magenta, 3, this));
             
             fractions[0].AddEntity(new Warrior(new Vector2f(64, 64), 16));
             fractions[0].AddEntity(new Warrior(new Vector2f(128, 128), 32));
@@ -48,6 +49,27 @@ namespace Struggle
         {
             foreach (Fraction f in fractions)
                 f.UpdateEntities();
+        }
+
+        public void HandleCollisions()
+        {
+            for (int i = fractions.Count-1; i >= 0; --i)
+                for (int j = fractions[i].entities.Count - 1; j >= 0; --j)
+                    for (int k = i - 1; k >= 0; --k)
+                        for (int l = fractions[k].entities.Count - 1; l >= 0; --l)
+                        {
+                            Unit e = (Unit)fractions[i].entities[j];
+                            Unit e2 = (Unit)fractions[k].entities[l];
+
+                            if(Math.Sqrt(Math.Pow(e.Position.X-e2.Position.X, 2)  + Math.Pow(e.Position.Y - e2.Position.Y, 2)) <= Math.Min(e2.Mass, e.Mass))
+                            {
+                                if (e.Mass > e2.Mass)
+                                    e.Eat(e2);
+                                else if(e.Mass < e2.Mass)
+                                    e2.Eat(e);
+                                return;
+                            }
+                        }
         }
 
         public void Draw(RenderWindow app)

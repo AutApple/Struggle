@@ -6,7 +6,7 @@ namespace Struggle
 {
     class Warrior : Unit
     {
-        Text title;
+        
         public Warrior(Vector2f crd, uint m) : base(crd, m)
         {
             title = new Text("Warrior", new Font("C:\\Windows\\Fonts\\Arial.ttf"), 15);
@@ -18,13 +18,13 @@ namespace Struggle
         public override void Draw(RenderWindow app)
         {
             base.Draw(app);
-            app.Draw(title);
+            
         }
 
         public override void Update()
         {
             base.Update();
-            title.Position = coords;
+            
         }
     }
 }

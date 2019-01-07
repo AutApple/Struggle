@@ -7,17 +7,20 @@ namespace Struggle
 {
     class Fraction
     {
-        List<Entity> entities;
+        public List<Entity> entities;
         uint id;
         public Color color;
         uint score;
+ 
+        Game gm;
 
-        public Fraction(Color c, uint id)
+        public Fraction(Color c, uint id, Game gm)
         {
             color = c;
             score = 0;
             this.id = id;
             entities = new List<Entity>();
+            this.gm = gm;
         }
         public void SetColor(Color color)
         {
@@ -41,7 +44,7 @@ namespace Struggle
                 float dx = Math.Abs(e.Position.X - coords.X);
                 float dy = Math.Abs(e.Position.Y - coords.Y);
 
-                uint r = e.GetMass();
+                uint r = e.Mass;
                 
                 if(r * r > dx*dx + dy*dy)
                     e.Select();
@@ -68,19 +71,22 @@ namespace Struggle
             foreach (Entity e in entities)
                 e.Draw(window);
         }
+
+        public void HandleCollisions()
+        {
+            gm.HandleCollisions();
+        }
+
         public void UpdateEntitiesMovement(Vector2f coords)
         {
             foreach (Entity e in entities)
-            {
-                e.Move(coords, 0.01f / e.GetMass());
-            }
+                e.Target(coords, 2f / e.Mass);
         }
+
         public void UpdateEntities()
         {
             foreach(Entity e in entities)
-            {
                 e.Update();
-            }
         }
     }
 }

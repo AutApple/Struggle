@@ -12,7 +12,8 @@ namespace Struggle
 
         public void Eat(Unit u)
         {
-
+            mass += u.Mass;
+            u.fraction.RemoveEntity(u);
         }
     }
 }
