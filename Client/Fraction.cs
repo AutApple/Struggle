@@ -85,8 +85,8 @@ namespace Struggle
 
         public void UpdateEntities()
         {
-            foreach(Entity e in entities)
-                e.Update();
+            for(int i = entities.Count - 1; i >= 0; --i)
+                entities[i].Update();
         }
     }
 }
