@@ -42,6 +42,11 @@ namespace Struggle
             selected = false;
         }
 
+        public void Deselect()
+        {
+            selected = false;
+        }
+
         public void SetFraction(Fraction fraction)
         {
             this.fraction = fraction;
@@ -67,11 +72,16 @@ namespace Struggle
             window.Draw(title);
         }
 
-        public virtual void Select()
+        public void InvertSelection()
         {
             selected = !selected;
         }
-
+        
+        public void Select()
+        {
+            selected = true;
+        }
+        
         public virtual void Update()
         {
             if (selected)

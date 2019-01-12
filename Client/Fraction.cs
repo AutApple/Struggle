@@ -47,7 +47,7 @@ namespace Struggle
                 uint r = e.Mass;
                 
                 if(r * r > dx*dx + dy*dy)
-                    e.Select();
+                    e.InvertSelection();
             }
         }
 
@@ -87,6 +87,12 @@ namespace Struggle
         {
             for(int i = entities.Count - 1; i >= 0; --i)
                 entities[i].Update();
+        }
+
+        public void DeselectAll()
+        {
+            foreach (Entity e in entities)
+                e.Deselect();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Struggle
             app.MouseButtonPressed += ec.Mouse_Pressed;
             app.MouseMoved += ec.Mouse_Moved;
             app.MouseButtonReleased += ec.Mouse_Released;
+            app.KeyPressed += ec.Key_Pressed;
 
             while (app.IsOpen)
             {

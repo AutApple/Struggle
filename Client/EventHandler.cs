@@ -43,10 +43,16 @@ namespace Struggle
 
         public void Mouse_Pressed(object sender, MouseButtonEventArgs e)
         {
-            lmb_Hold = true;
-            lmb_Hold_Coords = new Vector2f(e.X, e.Y);
+            if (e.Button == Mouse.Button.Left)
+            {
+                lmb_Hold = true;
+                lmb_Hold_Coords = new Vector2f(e.X, e.Y);
 
-            fr.SelectEntity(new Vector2f(e.X, e.Y));
+                fr.SelectEntity(new Vector2f(e.X, e.Y));
+            } else if (e.Button == Mouse.Button.Right)
+            {
+                //TODO: waypoint for selected entities
+            }
         }
         
         public void Mouse_Released(object sender, MouseButtonEventArgs e)
@@ -63,6 +69,17 @@ namespace Struggle
         public void Mouse_Moved(object sender, MouseMoveEventArgs e)
         {
             fr.UpdateEntitiesMovement(new Vector2f(e.X, e.Y));
+        }
+
+        public void Key_Pressed(object sender, KeyEventArgs e)
+        {
+            switch (e.Code)
+            {
+                case Keyboard.Key.Escape:
+                    fr.DeselectAll();
+                    break;
+
+            }
         }
     }
 }
