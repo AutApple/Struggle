@@ -31,7 +31,18 @@ namespace Struggle
             e.SetFraction(this);
             entities.Add(e);
         }
-
+        public void LockEntities()
+        {
+            foreach(Entity e in entities)
+                if (e.Selected)
+                    e.Lock();
+        }
+        public void UnlockEntities()
+        {
+            foreach (Entity e in entities)
+                if (e.Selected)
+                    e.Unlock();
+        }
         public void RemoveEntity(Entity e)
         {
             entities.Remove(e); 
@@ -40,13 +51,10 @@ namespace Struggle
         public void SelectEntity(Vector2f coords)
         {
             foreach(Entity e in entities)
-            {
-                float dx = Math.Abs(e.Position.X - coords.X);
-                float dy = Math.Abs(e.Position.Y - coords.Y);
-
+            { 
                 uint r = e.Mass;
                 
-                if(r * r > dx*dx + dy*dy)
+                if(r > Utils.Distance(e.Position, coords))
                     e.InvertSelection();
             }
         }

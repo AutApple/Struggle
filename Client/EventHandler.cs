@@ -51,19 +51,24 @@ namespace Struggle
                 fr.SelectEntity(new Vector2f(e.X, e.Y));
             } else if (e.Button == Mouse.Button.Right)
             {
-                //TODO: waypoint for selected entities
+                fr.UnlockEntities();
+                fr.UpdateEntitiesMovement(new Vector2f(e.X, e.Y));
+                fr.LockEntities();
             }
         }
         
         public void Mouse_Released(object sender, MouseButtonEventArgs e)
         {
-            RectangleShape rect = new RectangleShape();
-            rect.Position = lmb_Hold_Coords;
-            rect.Size = new Vector2f(e.X - lmb_Hold_Coords.X, e.Y - lmb_Hold_Coords.Y);
-            fr.SelectEntityRectangle(rect);
-            
-            lmb_Hold = false;
-            lmb_Hold_Coords = new Vector2f(-1, -1);
+            if (e.Button == Mouse.Button.Left)
+            {
+                RectangleShape rect = new RectangleShape();
+                rect.Position = lmb_Hold_Coords;
+                rect.Size = new Vector2f(e.X - lmb_Hold_Coords.X, e.Y - lmb_Hold_Coords.Y);
+                fr.SelectEntityRectangle(rect);
+
+                lmb_Hold = false;
+                lmb_Hold_Coords = new Vector2f(-1, -1);
+            }
         }
 
         public void Mouse_Moved(object sender, MouseMoveEventArgs e)
@@ -78,7 +83,9 @@ namespace Struggle
                 case Keyboard.Key.Escape:
                     fr.DeselectAll();
                     break;
-
+                case Keyboard.Key.D:
+                    fr.UnlockEntities();
+                    break;
             }
         }
     }

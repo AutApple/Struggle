@@ -19,6 +19,8 @@ namespace Struggle
         private Vector2f destination;
         private float acceleration, speed;
 
+        private bool targetLock; 
+
         public Vector2f Position
         {
             get
@@ -35,13 +37,30 @@ namespace Struggle
             }
         }
         
+        public bool Selected
+        {
+            get
+            {
+                return selected;
+            }
+        }
         public Entity(Vector2f crd, uint m = 5)
         {
             mass = m;
             coords = crd;
             selected = false;
+            targetLock = false;
         }
 
+        public void Lock()
+        {
+            targetLock = true;
+        }
+
+        public void Unlock()
+        {
+            targetLock = false;
+        }
         public void Deselect()
         {
             selected = false;
@@ -68,6 +87,17 @@ namespace Struggle
                 window.Draw(selection);
             }
 
+            if (targetLock)
+            {
+                Vertex[] targetLine = new Vertex[2];
+
+                targetLine[0] = new Vertex(coords);
+                targetLine[1] = new Vertex(destination);
+
+                
+                window.Draw(targetLine, 0, 2, PrimitiveType.Lines);
+            }
+            
             window.Draw(shape);
             window.Draw(title);
         }
@@ -81,21 +111,28 @@ namespace Struggle
         {
             selected = true;
         }
-        
+
         public virtual void Update()
         {
-            if (selected)
+            if ((selected || targetLock) && Utils.Distance(coords, destination) > mass / 2)
             {
                 coords += ((destination - coords) / (float)Math.Sqrt(Math.Pow((destination - coords).X, 2) + Math.Pow((destination - coords).Y, 2))) * speed;
                 fraction.HandleCollisions();
+                title.Position = coords;
             }
-            title.Position = coords;
+            else if (Utils.Distance(coords, destination) <= mass/2 && targetLock)
+            {
+                targetLock = false;
+            }
         }
 
         public void Target(Vector2f destination, float speed)
         {
-            this.destination = destination;
-            this.speed = speed;
+            if (!targetLock)
+            {
+                this.destination = destination;
+                this.speed = speed;
+            }
         }
     }
 }

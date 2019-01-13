@@ -62,7 +62,7 @@ namespace Struggle
                             Unit e = (Unit)fractions[i].entities[j];
                             Unit e2 = (Unit)fractions[k].entities[l];
 
-                            if(Math.Sqrt(Math.Pow(e.Position.X-e2.Position.X, 2)  + Math.Pow(e.Position.Y - e2.Position.Y, 2)) <= Math.Min(e2.Mass, e.Mass))
+                            if(Utils.Distance(e.Position, e2.Position) <= Math.Min(e2.Mass, e.Mass))
                             {
                                 if (e.Mass > e2.Mass)
                                     e.Eat(e2);
