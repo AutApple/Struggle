@@ -1,12 +1,13 @@
 ﻿using System;
 using SFML.Graphics;
 using SFML.System;
-
+using System.Collections.Generic;
 
 namespace Struggle
 {
     class Entity
     {
+       
         protected Vector2f coords; 
         protected uint mass;
 
@@ -14,18 +15,26 @@ namespace Struggle
 
         private bool selected;
 
+        protected string titleString;
         protected Text title;
 
         private Vector2f destination;
-        private float acceleration, speed;
+        private float speed;
 
-        private bool targetLock; 
+        private bool targetLock;
 
         public Vector2f Position
         {
             get
             {
                 return coords;
+            }
+        }
+        public Fraction Fraction
+        {
+            get
+            {
+                return fraction;
             }
         }
 
@@ -50,6 +59,11 @@ namespace Struggle
             coords = crd;
             selected = false;
             targetLock = false;
+
+            title = new Text(titleString, new Font("C:\\Windows\\Fonts\\Arial.ttf"), 15);
+            title.Color = Color.White;
+            title.Position = coords;
+            title.Origin = new Vector2f(title.GetLocalBounds().Width / 2, (title.GetLocalBounds().Height / 2) + 4);
         }
 
         public void Lock()
@@ -114,11 +128,13 @@ namespace Struggle
 
         public virtual void Update()
         {
+            title.Origin = new Vector2f(title.GetLocalBounds().Width / 2, (title.GetLocalBounds().Height / 2) + 4);
+            title.Position = coords;
+            title.DisplayedString = titleString;
             if ((selected || targetLock) && Utils.Distance(coords, destination) > mass / 2)
             {
                 coords += ((destination - coords) / (float)Math.Sqrt(Math.Pow((destination - coords).X, 2) + Math.Pow((destination - coords).Y, 2))) * speed;
                 fraction.HandleCollisions();
-                title.Position = coords;
             }
             else if (Utils.Distance(coords, destination) <= mass/2 && targetLock)
             {

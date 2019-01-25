@@ -1,14 +1,13 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using System;
 
 namespace Struggle
 {
-    class Warrior : Unit
-    { 
-        public Warrior(Vector2f crd, uint m) : base(crd, m)
+    class Builder : Unit
+    {
+        public Builder(Vector2f crd, uint m) : base(crd, m)
         {
-            titleString = "Warrior";
+            titleString = "Builder";
         }
 
         public override void Draw(RenderWindow app)
@@ -18,7 +17,7 @@ namespace Struggle
 
         public override void Update()
         {
-            base.Update();    
+            base.Update();
         }
     }
 }

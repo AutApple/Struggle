@@ -59,6 +59,11 @@ namespace Struggle
             }
         }
 
+        public void AddScore(uint score)
+        {
+            this.score += score;
+        }
+
         public void SelectEntityRectangle(RectangleShape rect)
         {
             float xMin = Math.Min(rect.Position.X, rect.Position.X + rect.Size.X);

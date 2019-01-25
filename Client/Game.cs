@@ -39,11 +39,16 @@ namespace Struggle
             fractions.Add(new Fraction(Color.Red, 1, this));
             fractions.Add(new Fraction(Color.Green, 2, this));
             fractions.Add(new Fraction(Color.Magenta, 3, this));
-            
+
+            fractions.Add(new Fraction(new Color(128, 128, 128, 255), 4, this)); //neutral
+
             fractions[0].AddEntity(new Warrior(new Vector2f(64, 64), 16));
             fractions[0].AddEntity(new Warrior(new Vector2f(128, 128), 32));
+
+            fractions[0].AddEntity(new Builder(new Vector2f(255, 255), 8));
             fractions[1].AddEntity(new Warrior(new Vector2f(576, 416), 16));
             fractions[1].AddEntity(new Warrior(new Vector2f(512, 352), 32));
+            fractions[4].AddEntity(new BuildPlace("Warrior", 5, new Vector2f(100, 100), 32));
         }
 
         public void Update()
@@ -59,16 +64,37 @@ namespace Struggle
                     for (int k = i - 1; k >= 0; --k)
                         for (int l = fractions[k].entities.Count - 1; l >= 0; --l)
                         {
-                            Unit e = (Unit)fractions[i].entities[j];
-                            Unit e2 = (Unit)fractions[k].entities[l];
+                            Entity e = fractions[i].entities[j];
+                            Entity e2 = fractions[k].entities[l];
 
                             if(Utils.Distance(e.Position, e2.Position) <= Math.Min(e2.Mass, e.Mass))
                             {
-                                if (e.Mass > e2.Mass)
-                                    e.Eat(e2);
-                                else if(e.Mass < e2.Mass)
-                                    e2.Eat(e);
-                                return;
+                                if (e is Unit && e2 is Unit)
+                                {
+                                    Unit u = (Unit)e;
+                                    Unit u2 = (Unit)e2;
+
+                                    if (u.Mass > u2.Mass)
+                                        u.Eat(u2);
+                                    else if (u.Mass < u2.Mass)
+                                        u2.Eat(u);
+                                    return;
+                                }
+                                if (e is Builder && e2 is BuildPlace)
+                                {
+                                    Builder b = (Builder)e;
+                                    BuildPlace bp = (BuildPlace)e2;
+
+                                    bp.Increase(b.Fraction);
+                                }
+                                if(e is BuildPlace && e2 is Builder)
+                                {
+                                    Builder b = (Builder)e2;
+                                    BuildPlace bp = (BuildPlace)e;
+
+                                    bp.Increase(b.Fraction);
+                                    b.Fraction.RemoveEntity(b);
+                                }
                             }
                         }
         }

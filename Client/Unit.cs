@@ -14,6 +14,7 @@ namespace Struggle
         {
             mass += u.Mass;
             u.fraction.RemoveEntity(u);
+            fraction.AddScore(1);
         }
     }
 }
