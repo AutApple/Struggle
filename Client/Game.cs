@@ -46,9 +46,12 @@ namespace Struggle
             fractions[0].AddEntity(new Warrior(new Vector2f(128, 128), 32));
 
             fractions[0].AddEntity(new Builder(new Vector2f(255, 255), 8));
+
+            fractions[0].AddEntity(new Builder(new Vector2f(255, 305), 32));
+            fractions[0].AddEntity(new Builder(new Vector2f(400, 400), 8));
             fractions[1].AddEntity(new Warrior(new Vector2f(576, 416), 16));
             fractions[1].AddEntity(new Warrior(new Vector2f(512, 352), 32));
-            fractions[4].AddEntity(new BuildPlace("Warrior", 5, new Vector2f(100, 100), 32));
+            fractions[4].AddEntity(new BuildPlace("Warrior", 3, new Vector2f(100, 100), 32));
         }
 
         public void Update()

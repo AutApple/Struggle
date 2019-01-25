@@ -20,5 +20,13 @@ namespace Struggle
         {
             base.Update();    
         }
+
+        public override void Eat(Unit u)
+        {
+            base.Eat(u);
+            mass += u.Mass;
+            u.Fraction.RemoveEntity(u);
+            fraction.AddScore(1);
+        }
     }
 }

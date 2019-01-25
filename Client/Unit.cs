@@ -10,11 +10,9 @@ namespace Struggle
             level = 1;
         }
 
-        public void Eat(Unit u)
+        public virtual void Eat(Unit u)
         {
-            mass += u.Mass;
-            u.fraction.RemoveEntity(u);
-            fraction.AddScore(1);
+         
         }
     }
 }
