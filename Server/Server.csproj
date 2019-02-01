@@ -44,11 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffer.cs" />
-    <Compile Include="CommandParser.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="EntityContainer.cs" />
     <Compile Include="IdMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -12,6 +12,7 @@ namespace Struggle
         EventHandler ec;
         public void Run(RenderWindow app)
         {
+            Client client = new Client("127.0.0.1", 7777);
             Fraction playersFraction = fractions[0];
             ec = new EventHandler(ref playersFraction);
 
@@ -29,6 +30,7 @@ namespace Struggle
                 Draw(app);
                 app.Display();
             }
+            client.Close();
         }
 
         public Game()

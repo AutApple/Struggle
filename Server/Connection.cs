@@ -80,6 +80,9 @@ namespace Struggle
 
             refIds.releaseId(c.id);
             refConnections.TryRemove(id, out c);
+
+            socket.Close();
+            socket.Dispose();
         }
 
         public void ChangeNickname(string nick)

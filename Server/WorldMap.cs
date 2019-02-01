@@ -11,8 +11,7 @@ namespace Struggle
 {
     class WorldMap
     {
-        public EntityContainer entityContainer { set; get; } 
-
+        
         public string mapName { private set; get; }
         public int width { private set; get; }
         public int height { private set; get; }
@@ -20,7 +19,7 @@ namespace Struggle
 
         public WorldMap(int maxEntities, string path)
         {
-            entityContainer = new EntityContainer(maxEntities);
+            
             XmlTextReader reader = new XmlTextReader(path);
             while (reader.Read())
             {
@@ -69,7 +68,7 @@ namespace Struggle
                                         type = reader.Value;
                                         break;
                                 }
-                            entityContainer.addEntity(x, y, size, type, fraction);
+                            
                             Console.WriteLine("\t| Entity (x : {0}, y : {1}, type : {2}, size : {3}, fraction : {4})", x, y, type, size, fraction);
                             break;
                     } 

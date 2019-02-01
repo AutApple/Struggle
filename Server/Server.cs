@@ -69,6 +69,7 @@ namespace Struggle
                     switch (mCode)
                     {
                         case 0:
+                            Console.WriteLine("timeout flag");
                             //timeout
                             c.timeoutFlag = true;
                             break;
