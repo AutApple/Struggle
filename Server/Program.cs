@@ -30,7 +30,7 @@ namespace Struggle
                 config_maxEntities = int.Parse(strentmax);
                 config_defaultFraction = int.Parse(strdeffrac);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("[Server] Oops, something is wrong with config. ");
                 return;
@@ -47,7 +47,7 @@ namespace Struggle
                     Console.ReadLine();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("[Server] Something went wrong  while initializing server.");
             }

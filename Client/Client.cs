@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SFML.Graphics;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Timers;
@@ -7,71 +8,49 @@ namespace Struggle
 {
     class Client
     {
-        Socket socket;
-        
-        Timer timeoutTimer;
-        bool timeoutFlag;
+        TcpClient tcpclient;
+        NetworkStream stream;
 
-        public Client(string ip, int port)
+        public Client(string ip, int port, RenderWindow app)
         {
             try
             {
-                IPEndPoint iep = new IPEndPoint(IPAddress.Parse(ip), port);
-                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Connect(iep);
+                tcpclient = new TcpClient(ip, port);
+                stream = tcpclient.GetStream();
             }
             catch(Exception)
             {
                 Console.WriteLine("Unable to connect to the server");
+                app.Close();
+                return;
             }
-            timeoutFlag = true;
-
-            timeoutTimer = new Timer(4000);
-            timeoutTimer.AutoReset = true;
-
-            timeoutTimer.Elapsed += timeoutEvent;
-            timeoutTimer.Start();
-
-            NetworkLoop(ref socket);
         }
 
-        private void NetworkLoop(ref Socket socket)
+        public void NetworkLoop()
         {
-            byte[] data = new byte[256];
-            int bytes = 1;
-
-            do
+            Console.WriteLine("hello");
+            int size = 0;
+            byte[] buffer = new byte[256];
+            while (tcpclient.Connected)
             {
-                bytes = socket.Receive(data, data.Length, 0);
-
-                switch (data[0])
+                do
                 {
-                    case 1:
-                        timeoutFlag = true;
-                        Console.WriteLine("timeout flag");
-                        break;
+                    size = stream.Read(buffer, 0, buffer.Length);
+                    Console.WriteLine(size);
+                    switch(buffer[0])
+                    {
+                        default:
+                            break;
+                    }
                 }
+                while (stream.DataAvailable);
             }
-            while (bytes > 0);
-        }
-        private void timeoutEvent(object sender, ElapsedEventArgs e)
-        {
-            if(timeoutFlag == true)
-            {
-                socket.Send(new byte[] { 0 });
-                timeoutFlag = false;
-            }
-            else
-            {
-                Console.WriteLine("No response from server, closing connection");
-                Close();
-            }
-         
         }
 
         public void Close()
         {
-            socket.Shutdown(0);
+            stream.Close();
+            tcpclient.Close();
         }
     }
 }

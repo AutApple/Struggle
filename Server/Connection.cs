@@ -30,23 +30,14 @@ namespace Struggle
         ConcurrentDictionary<int, Connection> refConnections;
         IdMap refIds;
 
-        public bool timeoutFlag;
-        public Timer timeoutTimer;
-
         public byte[] data;
-
-
 
         public int fraction { get; private set; }
 
         /*Entities stuff*/
 
-
-
-
         public Connection(Socket socket, int id, int fraction)
         {
-            timeoutFlag = true;
             this.socket = socket;
             this.id = id;
             this.fraction = fraction;
@@ -63,19 +54,10 @@ namespace Struggle
         {
             refConnections = connections;
             refIds = ids;
-
-            timeoutTimer = new Timer(4000);
-            timeoutTimer.AutoReset = true;
-
-            timeoutTimer.Elapsed += timeoutEvent;
-            timeoutTimer.Start();
         }
 
         public void Release()
         {
-            timeoutTimer.Close();
-            timeoutTimer.Dispose();
-
             Connection c = this;
 
             refIds.releaseId(c.id);
@@ -90,18 +72,6 @@ namespace Struggle
             this.nick = nick;
         }
 
-        private void timeoutEvent(object sender, ElapsedEventArgs e)
-        {
-            if (timeoutFlag)
-            {
-                timeoutFlag = false;
-                socket.Send(new byte[1] { 0 });
-            }
-            else
-            {
-                Console.WriteLine("[Server] {0} reached timeout! Disconnecting...", id);
-                Release();
-            }
-        }
+        
     }
 }

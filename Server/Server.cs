@@ -69,15 +69,7 @@ namespace Struggle
                     switch (mCode)
                     {
                         case 0:
-                            Console.WriteLine("timeout flag");
-                            //timeout
-                            c.timeoutFlag = true;
-                            break;
-                        case 1:
-                            //another timeout
-                            buffer.SeekStart();
-                            buffer.WriteInt8(1);
-                            c.socket.Send(buffer.GetBytes(), 0, buffer.Tell(), 0);
+
                             break;
                         default:
                             break;
@@ -106,7 +98,7 @@ namespace Struggle
                 {
                     int size = c.socket.Receive(c.data);
                     return size;
-                }catch(Exception e)
+                }catch(Exception)
                 {
                     return 0;
                 }

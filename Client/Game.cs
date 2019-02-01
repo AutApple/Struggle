@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using System;
+using System.Threading;
 
 namespace Struggle
 {
@@ -10,14 +11,16 @@ namespace Struggle
     {
         List<Fraction> fractions;
         EventHandler ec;
-        bool stopFlag;
         public void Run(RenderWindow app)
         {
-            Client client = new Client("127.0.0.1", 7777);
+
+            Client client = new Client("127.0.0.1", 7777, app);
+
+            Thread networkThread = new Thread(client.NetworkLoop);
+            networkThread.Start();
+
             Fraction playersFraction = fractions[0];
             ec = new EventHandler(ref playersFraction);
-
-            stopFlag = false;
 
             app.Closed += ec.Window_Closed;
             app.MouseButtonPressed += ec.Mouse_Pressed;
@@ -25,7 +28,7 @@ namespace Struggle
             app.MouseButtonReleased += ec.Mouse_Released;
             app.KeyPressed += ec.Key_Pressed;
 
-            while (app.IsOpen && !stopFlag)
+            while (app.IsOpen)
             {
                 app.Clear();
                 app.DispatchEvents();
@@ -33,12 +36,9 @@ namespace Struggle
                 Draw(app);
                 app.Display();
             }
-            client.Close();
-        }
 
-        public void Stop()
-        {
-            stopFlag = true;
+            networkThread.Abort();
+            client.Close();
         }
         public Game()
         {      

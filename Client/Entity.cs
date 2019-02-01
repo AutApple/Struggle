@@ -74,6 +74,7 @@ namespace Struggle
         public void Unlock()
         {
             targetLock = false;
+            speed = 0;
         }
         public void Deselect()
         {

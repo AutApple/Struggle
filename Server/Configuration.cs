@@ -49,7 +49,7 @@ namespace Struggle
             {
                 xmlReader = new XmlTextReader("config.xml");
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 Console.WriteLine("[Configuration File] unable to find configuration file. Using default config");
 

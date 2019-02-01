@@ -4,10 +4,10 @@ namespace Struggle
 {
     class Unit : Entity
     {
-        uint level;
+        //uint level;
         public Unit(Vector2f crd, uint m) : base(crd, m)
         {
-            level = 1;
+            //level = 1;
         }
 
         public virtual void Eat(Unit u)
