@@ -10,11 +10,14 @@ namespace Struggle
     {
         List<Fraction> fractions;
         EventHandler ec;
+        bool stopFlag;
         public void Run(RenderWindow app)
         {
             Client client = new Client("127.0.0.1", 7777);
             Fraction playersFraction = fractions[0];
             ec = new EventHandler(ref playersFraction);
+
+            stopFlag = false;
 
             app.Closed += ec.Window_Closed;
             app.MouseButtonPressed += ec.Mouse_Pressed;
@@ -22,7 +25,7 @@ namespace Struggle
             app.MouseButtonReleased += ec.Mouse_Released;
             app.KeyPressed += ec.Key_Pressed;
 
-            while (app.IsOpen)
+            while (app.IsOpen && !stopFlag)
             {
                 app.Clear();
                 app.DispatchEvents();
@@ -33,6 +36,10 @@ namespace Struggle
             client.Close();
         }
 
+        public void Stop()
+        {
+            stopFlag = true;
+        }
         public Game()
         {      
             fractions = new List<Fraction>();

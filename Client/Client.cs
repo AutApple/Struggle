@@ -8,8 +8,7 @@ namespace Struggle
     class Client
     {
         Socket socket;
-        NetworkStream ns;
-
+        
         Timer timeoutTimer;
         bool timeoutFlag;
 
@@ -32,8 +31,29 @@ namespace Struggle
 
             timeoutTimer.Elapsed += timeoutEvent;
             timeoutTimer.Start();
+
+            NetworkLoop(ref socket);
         }
 
+        private void NetworkLoop(ref Socket socket)
+        {
+            byte[] data = new byte[256];
+            int bytes = 1;
+
+            do
+            {
+                bytes = socket.Receive(data, data.Length, 0);
+
+                switch (data[0])
+                {
+                    case 1:
+                        timeoutFlag = true;
+                        Console.WriteLine("timeout flag");
+                        break;
+                }
+            }
+            while (bytes > 0);
+        }
         private void timeoutEvent(object sender, ElapsedEventArgs e)
         {
             if(timeoutFlag == true)
