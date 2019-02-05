@@ -50,7 +50,7 @@ namespace Struggle
             this.fraction = fraction;
         }
 
-        public void SetupTimeout(ref ConcurrentDictionary<int, Connection> connections, ref IdMap ids)
+        public void SetupConnection(ref ConcurrentDictionary<int, Connection> connections, ref IdMap ids)
         {
             refConnections = connections;
             refIds = ids;
@@ -71,7 +71,5 @@ namespace Struggle
         {
             this.nick = nick;
         }
-
-        
     }
 }

@@ -28,7 +28,6 @@ namespace Struggle
 
         public void NetworkLoop()
         {
-            Console.WriteLine("hello");
             int size = 0;
             byte[] buffer = new byte[256];
             while (tcpclient.Connected)
@@ -37,6 +36,8 @@ namespace Struggle
                 {
                     size = stream.Read(buffer, 0, buffer.Length);
                     Console.WriteLine(size);
+                    foreach (byte b in buffer)
+                        Console.Write(b + " ");
                     switch(buffer[0])
                     {
                         default:

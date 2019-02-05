@@ -3,8 +3,10 @@ using SFML.Graphics;
 using SFML.System;
 using System;
 
+
 namespace Struggle
 {
+    [Serializable]
     class Fraction
     {
         public List<Entity> entities;
@@ -98,8 +100,11 @@ namespace Struggle
 
         public void UpdateEntities()
         {
-            for(int i = entities.Count - 1; i >= 0; --i)
+            for (int i = entities.Count - 1; i >= 0; --i)
+            {
                 entities[i].Update();
+                entities[i].UpdateMovement();
+            }
         }
 
         public void DeselectAll()

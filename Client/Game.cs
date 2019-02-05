@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using System.Threading;
+
 
 namespace Struggle
 {
@@ -11,14 +11,9 @@ namespace Struggle
     {
         List<Fraction> fractions;
         EventHandler ec;
+                
         public void Run(RenderWindow app)
-        {
-
-            Client client = new Client("127.0.0.1", 7777, app);
-
-            Thread networkThread = new Thread(client.NetworkLoop);
-            networkThread.Start();
-
+        { 
             Fraction playersFraction = fractions[0];
             ec = new EventHandler(ref playersFraction);
 
@@ -36,15 +31,13 @@ namespace Struggle
                 Draw(app);
                 app.Display();
             }
-
-            networkThread.Abort();
-            client.Close();
         }
-        public Game()
-        {      
-            fractions = new List<Fraction>();
 
-            fractions.Add(new Fraction(Color.Blue, 0, this));
+     
+        public Game()
+        {
+            fractions = new List<Fraction>();
+        /*    fractions.Add(new Fraction(Color.Blue, 0, this));
             fractions.Add(new Fraction(Color.Red, 1, this));
             fractions.Add(new Fraction(Color.Green, 2, this));
             fractions.Add(new Fraction(Color.Magenta, 3, this));
@@ -60,9 +53,9 @@ namespace Struggle
             fractions[0].AddEntity(new Builder(new Vector2f(400, 400), 8));
             fractions[1].AddEntity(new Warrior(new Vector2f(576, 416), 16));
             fractions[1].AddEntity(new Warrior(new Vector2f(512, 352), 32));
-            fractions[4].AddEntity(new BuildPlace("Warrior", 3, new Vector2f(100, 100), 32));
+            fractions[4].AddEntity(new BuildPlace("Warrior", 3, new Vector2f(100, 100), 32));*/
         }
-
+        
         public void Update()
         {
             foreach (Fraction f in fractions)
@@ -71,7 +64,7 @@ namespace Struggle
 
         public void HandleCollisions()
         {
-            for (int i = fractions.Count-1; i >= 0; --i)
+            for (int i = fractions.Count - 1; i >= 0; --i)
                 for (int j = fractions[i].entities.Count - 1; j >= 0; --j)
                     for (int k = i - 1; k >= 0; --k)
                         for (int l = fractions[k].entities.Count - 1; l >= 0; --l)
@@ -79,7 +72,7 @@ namespace Struggle
                             Entity e = fractions[i].entities[j];
                             Entity e2 = fractions[k].entities[l];
 
-                            if(Utils.Distance(e.Position, e2.Position) <= Math.Min(e2.Mass, e.Mass))
+                            if (Utils.Distance(e.Position, e2.Position) <= Math.Min(e2.Mass, e.Mass))
                             {
                                 if (e is Unit && e2 is Unit)
                                 {
@@ -99,7 +92,7 @@ namespace Struggle
 
                                     bp.Increase(b.Fraction);
                                 }
-                                if(e is BuildPlace && e2 is Builder)
+                                if (e is BuildPlace && e2 is Builder)
                                 {
                                     Builder b = (Builder)e2;
                                     BuildPlace bp = (BuildPlace)e;
@@ -110,6 +103,7 @@ namespace Struggle
                             }
                         }
         }
+
 
         public void Draw(RenderWindow app)
         {

@@ -126,21 +126,23 @@ namespace Struggle
         {
             selected = true;
         }
-
-        public virtual void Update()
+        public virtual void UpdateMovement()
         {
-            title.Origin = new Vector2f(title.GetLocalBounds().Width / 2, (title.GetLocalBounds().Height / 2) + 4);
-            title.Position = coords;
-            title.DisplayedString = titleString;
             if ((selected || targetLock) && Utils.Distance(coords, destination) > mass / 2)
             {
                 coords += ((destination - coords) / (float)Math.Sqrt(Math.Pow((destination - coords).X, 2) + Math.Pow((destination - coords).Y, 2))) * speed;
                 fraction.HandleCollisions();
             }
-            else if (Utils.Distance(coords, destination) <= mass/2 && targetLock)
+            else if (Utils.Distance(coords, destination) <= mass / 2 && targetLock)
             {
                 targetLock = false;
             }
+        }
+        public virtual void Update()
+        {
+            title.Origin = new Vector2f(title.GetLocalBounds().Width / 2, (title.GetLocalBounds().Height / 2) + 4);
+            title.Position = coords;
+            title.DisplayedString = titleString;
         }
 
         public void Target(Vector2f destination, float speed)

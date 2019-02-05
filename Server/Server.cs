@@ -3,6 +3,10 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using SFML.Graphics;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 
 namespace Struggle
 {
@@ -11,7 +15,7 @@ namespace Struggle
         Socket socket;
         ConcurrentDictionary<int, Connection> connections;
         IdMap connectionIds;
-
+        
         public Server(short port, int maxPlayers, int maxEntities, int defaultFraction)
         {
             connections = new ConcurrentDictionary<int, Connection>();
@@ -35,8 +39,8 @@ namespace Struggle
                     Connection c = new Connection(connection, connectionId, connectionId);
 
                     connections.TryAdd(connectionId, c);
-                    c.SetupTimeout(ref connections, ref connectionIds);
-                     
+                    c.SetupConnection(ref connections, ref connectionIds);
+ 
                     RecieveDataAsync(c);
                 }
                 AcceptAsync();
