@@ -33,7 +33,19 @@ namespace Struggle
             }
         }
 
-     
+        public void SetInfo(GameCommon gc)
+        {
+            foreach(FractionCommon fc in gc.fractions)
+            {
+                Fraction f = new Fraction(Color.Blue, 0, this);
+                foreach(EntityCommon ec in fc.GetEntities())
+                {
+                    Entity e = new Entity(new Vector2f(ec.x, ec.y), ec.mass);
+                    f.AddEntity(e);
+                }
+                fractions.Add(f);
+            }
+        }
         public Game()
         {
             fractions = new List<Fraction>();

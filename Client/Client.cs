@@ -1,7 +1,10 @@
 ﻿using SFML.Graphics;
+using SFML.Window;
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Timers;
 
 namespace Struggle
@@ -10,9 +13,10 @@ namespace Struggle
     {
         TcpClient tcpclient;
         NetworkStream stream;
-
+        RenderWindow app;
         public Client(string ip, int port, RenderWindow app)
         {
+            this.app = app;
             try
             {
                 tcpclient = new TcpClient(ip, port);
@@ -34,15 +38,16 @@ namespace Struggle
             {
                 do
                 {
-                    size = stream.Read(buffer, 0, buffer.Length);
-                    Console.WriteLine(size);
-                    foreach (byte b in buffer)
-                        Console.Write(b + " ");
-                    switch(buffer[0])
-                    {
-                        default:
-                            break;
-                    }
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.AssemblyFormat = FormatterAssemblyStyle.Simple;
+                    GameCommon gc = bf.Deserialize(stream) as GameCommon;
+
+                    Game gm = new Game();
+                    gm.Run(app);
+
+                    gm.SetInfo(gc);
+                    //size = stream.Read(buffer, 0, buffer.Length);
+                    //Console.WriteLine(size);
                 }
                 while (stream.DataAvailable);
             }

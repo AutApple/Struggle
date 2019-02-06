@@ -63,13 +63,13 @@
     <Compile Include="Base.cs" />
     <Compile Include="Builder.cs" />
     <Compile Include="BuildPlace.cs" />
+    <Compile Include="Common\EntityCommon.cs" />
+    <Compile Include="Common\FractionCommon.cs" />
+    <Compile Include="Common\GameCommon.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="EntityCommon.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="Fraction.cs" />
-    <Compile Include="FractionCommon.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameCommon.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Warrior.cs" />

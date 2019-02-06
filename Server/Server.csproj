@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffer.cs" />
+    <Compile Include="Common\EntityCommon.cs" />
+    <Compile Include="Common\FractionCommon.cs" />
+    <Compile Include="Common\GameCommon.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="IdMap.cs" />

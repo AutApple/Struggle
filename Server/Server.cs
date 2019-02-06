@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters;
 
 namespace Struggle
 {
@@ -39,7 +40,32 @@ namespace Struggle
 
                     connections.TryAdd(connectionId, c);
                     c.SetupConnection(ref connections, ref connectionIds);
- 
+
+                    GameCommon gc = new GameCommon();
+                    FractionCommon fr = new FractionCommon();
+
+                    fr.Add(new EntityCommon(32, 32, 16));
+                    gc.fractions.Add(fr);
+
+                    Stream str = new MemoryStream();
+
+
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.AssemblyFormat = FormatterAssemblyStyle.Simple;
+                    bf.Serialize(str, gc);
+
+                    str.Seek(0, SeekOrigin.Begin);
+
+                    List<byte> buffer = new List<byte>();
+                    while (!(str.Position == str.Length))
+                    {
+                        buffer.Add((byte)str.ReadByte());
+                    }
+
+                    str.Close();
+
+
+                    c.socket.Send(buffer.ToArray());
                     RecieveDataAsync(c);
                 }
                 AcceptAsync();
