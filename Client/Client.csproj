@@ -64,9 +64,12 @@
     <Compile Include="Builder.cs" />
     <Compile Include="BuildPlace.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="EntityCommon.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="Fraction.cs" />
+    <Compile Include="FractionCommon.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameCommon.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Warrior.cs" />

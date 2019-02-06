@@ -37,7 +37,7 @@ namespace Struggle
         public Game()
         {
             fractions = new List<Fraction>();
-        /*    fractions.Add(new Fraction(Color.Blue, 0, this));
+          /*fractions.Add(new Fraction(Color.Blue, 0, this));
             fractions.Add(new Fraction(Color.Red, 1, this));
             fractions.Add(new Fraction(Color.Green, 2, this));
             fractions.Add(new Fraction(Color.Magenta, 3, this));

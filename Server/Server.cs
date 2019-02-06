@@ -3,7 +3,6 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
-using SFML.Graphics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
