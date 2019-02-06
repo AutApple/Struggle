@@ -38,7 +38,7 @@ namespace Struggle
             foreach(FractionCommon fc in gc.fractions)
             {
                 Fraction f = new Fraction(Color.Blue, 0, this);
-                foreach(EntityCommon ec in fc.GetEntities())
+                foreach(EntityCommon ec in fc.entities)
                 {
                     Entity e = new Entity(new Vector2f(ec.x, ec.y), ec.mass);
                     f.AddEntity(e);
@@ -49,7 +49,7 @@ namespace Struggle
         public Game()
         {
             fractions = new List<Fraction>();
-          /*fractions.Add(new Fraction(Color.Blue, 0, this));
+            /*fractions.Add(new Fraction(Color.Blue, 0, this));
             fractions.Add(new Fraction(Color.Red, 1, this));
             fractions.Add(new Fraction(Color.Green, 2, this));
             fractions.Add(new Fraction(Color.Magenta, 3, this));

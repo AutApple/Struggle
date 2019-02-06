@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace Struggle
 {
-    class FractionCommon
+    [Serializable]
+    public class FractionCommon
     {
-        List<EntityCommon> entities;
+        public List<EntityCommon> entities;
 
         public FractionCommon()
         {
-            List<EntityCommon> entities = new List<EntityCommon>();
+            entities = new List<EntityCommon>();
         }
     }
 }

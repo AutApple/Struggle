@@ -44,7 +44,7 @@ namespace Struggle
                     GameCommon gc = new GameCommon();
                     FractionCommon fr = new FractionCommon();
 
-                    fr.Add(new EntityCommon(32, 32, 16));
+                    fr.entities.Add(new EntityCommon(32, 32, 16));
                     gc.fractions.Add(fr);
 
                     Stream str = new MemoryStream();

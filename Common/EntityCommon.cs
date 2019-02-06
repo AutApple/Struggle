@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace Struggle
 {
-    class EntityCommon
+    [Serializable]
+    public class EntityCommon
     {
         public int x, y;
         public uint mass;
+
+        public EntityCommon(int x, int y, uint mass)
+        {
+            this.x = x;
+            this.y = y;
+            this.mass = mass; 
+        }
     }
 }

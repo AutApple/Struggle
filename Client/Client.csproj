@@ -63,9 +63,6 @@
     <Compile Include="Base.cs" />
     <Compile Include="Builder.cs" />
     <Compile Include="BuildPlace.cs" />
-    <Compile Include="Common\EntityCommon.cs" />
-    <Compile Include="Common\FractionCommon.cs" />
-    <Compile Include="Common\GameCommon.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="Fraction.cs" />
@@ -105,7 +102,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{d793b837-4532-4e82-be7d-19c3618bbcc0}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

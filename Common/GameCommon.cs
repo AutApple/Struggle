@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 namespace Struggle
 {
     [Serializable]
-    class GameCommon
+    public class GameCommon
     {
-        List<FractionCommon> fractions;
+        public List<FractionCommon> fractions;
         public GameCommon()
         {
             fractions = new List<FractionCommon>();
         }
-
- 
     }
 }
