@@ -5,7 +5,7 @@ namespace Struggle
 {
     class Builder : Unit
     {
-        public Builder(Vector2f crd, uint m) : base(crd, m)
+        public Builder(Vector2f crd, uint id, uint m) : base(crd, id, m)
         {
             titleString = "Builder";
         }

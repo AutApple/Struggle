@@ -6,7 +6,7 @@ namespace Struggle
 {
     class Warrior : Unit
     { 
-        public Warrior(Vector2f crd, uint m) : base(crd, m)
+        public Warrior(Vector2f crd, uint id, uint m) : base(crd, id, m)
         {
             titleString = "Warrior";
         }

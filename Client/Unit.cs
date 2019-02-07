@@ -5,7 +5,7 @@ namespace Struggle
     class Unit : Entity
     {
         //uint level;
-        public Unit(Vector2f crd, uint m) : base(crd, m)
+        public Unit(Vector2f crd, uint id, uint m) : base(crd, id, m)
         {
             //level = 1;
         }

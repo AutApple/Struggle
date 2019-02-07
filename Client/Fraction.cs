@@ -10,19 +10,24 @@ namespace Struggle
     class Fraction
     {
         public List<Entity> entities;
-        uint id;
+        
         public Color color;
         uint score;
  
-        Game gm;
-
-        public Fraction(Color c, uint id, Game gm)
+        Game game;
+        public Game Game
+        {
+            get
+            {
+                return game;
+            }
+        }
+        public Fraction(Color c, Game game)
         {
             color = c;
             score = 0;
-            this.id = id;
             entities = new List<Entity>();
-            this.gm = gm;
+            this.game = game;
         }
         public void SetColor(Color color)
         {
@@ -33,18 +38,25 @@ namespace Struggle
             e.SetFraction(this);
             entities.Add(e);
         }
-        public void LockEntities()
+        public void MoveEntities()
         {
             foreach(Entity e in entities)
-                if (e.Selected)
-                    e.Lock();
+                if (game.SelectedEntities.Contains(e.Id))
+                    e.Move();
         }
-        public void UnlockEntities()
+        public void StopEntities()
         {
             foreach (Entity e in entities)
-                if (e.Selected)
-                    e.Unlock();
+                if (game.SelectedEntities.Contains(e.Id))
+                    e.Stop();
         }
+
+        public void StopAllEntities()
+        {
+            foreach (Entity e in entities)
+                    e.Stop();
+        }
+
         public void RemoveEntity(Entity e)
         {
             entities.Remove(e); 
@@ -55,9 +67,12 @@ namespace Struggle
             foreach(Entity e in entities)
             { 
                 uint r = e.Mass;
-                
-                if(r > Utils.Distance(e.Position, coords))
-                    e.InvertSelection();
+
+                if (r > Utils.Distance(e.Position, coords))
+                    if (game.SelectedEntities.Contains(e.Id))
+                        game.SelectedEntities.Remove(e.Id);
+                    else
+                        game.SelectedEntities.Add(e.Id);
             }
         }
 
@@ -68,6 +83,15 @@ namespace Struggle
 
         public void SelectEntityRectangle(RectangleShape rect)
         {
+            foreach (uint id in game.SelectedEntities)
+            {
+                Console.Write(id + " ");
+            }
+
+            foreach (Entity e in entities)
+                if (game.SelectedEntities.Contains(e.Id))
+                    game.SelectedEntities.Remove(e.Id);
+            
             float xMin = Math.Min(rect.Position.X, rect.Position.X + rect.Size.X);
             float yMin = Math.Min(rect.Position.Y, rect.Position.Y + rect.Size.Y);
             float xMax = Math.Max(rect.Position.X, rect.Position.X + rect.Size.X);
@@ -77,7 +101,7 @@ namespace Struggle
             {
                 if (e.Position.X >= xMin && e.Position.X <= xMax
                    && e.Position.Y >= yMin && e.Position.Y <= yMax)
-                    e.Select();
+                    game.SelectedEntities.Add(e.Id);
             }
         }
 
@@ -89,13 +113,17 @@ namespace Struggle
 
         public void HandleCollisions()
         {
-            gm.HandleCollisions();
+            game.HandleCollisions();
         }
 
-        public void UpdateEntitiesMovement(Vector2f coords)
+        public void TargetEntitiesMovement(Vector2f coords)
         {
             foreach (Entity e in entities)
-                e.Target(coords, 2f / e.Mass);
+                if (game.SelectedEntities.Contains(e.Id))
+                {
+                    Console.WriteLine("TARGETING " + e.Id + " TO X = " + coords.X + "Y = " + coords.Y );
+                    e.Target(coords);
+                }
         }
 
         public void UpdateEntities()
@@ -110,7 +138,7 @@ namespace Struggle
         public void DeselectAll()
         {
             foreach (Entity e in entities)
-                e.Deselect();
+                game.SelectedEntities.Remove(e.Id);
         }
     }
 }

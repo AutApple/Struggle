@@ -11,13 +11,18 @@ namespace Struggle
     {
         static void Main()
         {
-
+            
             RenderWindow app = new RenderWindow(new VideoMode(640, 480), "Struggle");
-            Client client = new Client("127.0.0.1", 7777, app);
+
+
+            Game gm = new Game();
+            Client client = new Client("127.0.0.1", 7777, ref gm);
             Thread networkThread = new Thread(client.NetworkLoop);
+            
             networkThread.Start();
-            // Game game = new Game();
-            // game.Run(app);
+
+            gm.SetClient(ref client);
+            gm.Run(app);
         }
     }
 }

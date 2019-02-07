@@ -12,7 +12,7 @@ namespace Struggle
         Fraction f;
 
 
-        public BuildPlace(string type, int buildersRequired, Vector2f crd, uint m) : base(crd, m)
+        public BuildPlace(string type, int buildersRequired, Vector2f crd, uint id, uint m) : base(crd, id, m)
         {
             this.type = type;
             this.buildersRequired = buildersRequired;
@@ -35,12 +35,12 @@ namespace Struggle
                 //create unit
                 switch (type)
                 {
-                    case "Warrior":
+                    /*case "Warrior":
                         f.AddEntity(new Warrior(Position, 16));
                         break;
                     default:
                         f.AddEntity(new Unit(Position, 32));
-                        break;
+                        break;*/
                 }
                 buildersCount = 0;
                 f = null;

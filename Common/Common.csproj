@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command.cs" />
     <Compile Include="EntityCommon.cs" />
     <Compile Include="FractionCommon.cs" />
     <Compile Include="GameCommon.cs" />

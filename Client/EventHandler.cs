@@ -10,7 +10,9 @@ namespace Struggle
     {
         private Fraction fr;
         private bool lmb_Hold;
-        private Vector2f lmb_Hold_Coords; 
+        private Vector2f lmb_Hold_Coords;
+
+ 
 
         public bool LeftMouseButton_Hold
         {
@@ -28,9 +30,8 @@ namespace Struggle
             }
         }
         
-        public EventHandler(ref Fraction fr)
+        public EventHandler()
         {
-            this.fr = fr;
             lmb_Hold = false;
             lmb_Hold_Coords = new Vector2f(-1, -1);
         }
@@ -43,6 +44,7 @@ namespace Struggle
 
         public void Mouse_Pressed(object sender, MouseButtonEventArgs e)
         {
+            if(fr != null)
             if (e.Button == Mouse.Button.Left)
             {
                 lmb_Hold = true;
@@ -51,42 +53,50 @@ namespace Struggle
                 fr.SelectEntity(new Vector2f(e.X, e.Y));
             } else if (e.Button == Mouse.Button.Right)
             {
-                fr.UnlockEntities();
-                fr.UpdateEntitiesMovement(new Vector2f(e.X, e.Y));
-                fr.LockEntities();
+                fr.StopEntities();
+                fr.TargetEntitiesMovement(new Vector2f(e.X, e.Y));
+                fr.MoveEntities();
             }
         }
         
         public void Mouse_Released(object sender, MouseButtonEventArgs e)
         {
+            if(fr != null)
             if (e.Button == Mouse.Button.Left)
             {
                 RectangleShape rect = new RectangleShape();
                 rect.Position = lmb_Hold_Coords;
                 rect.Size = new Vector2f(e.X - lmb_Hold_Coords.X, e.Y - lmb_Hold_Coords.Y);
-                fr.SelectEntityRectangle(rect);
+                if(rect.Size.X != 0 && rect.Size.Y != 0)
+                    fr.SelectEntityRectangle(rect);
 
                 lmb_Hold = false;
                 lmb_Hold_Coords = new Vector2f(-1, -1);
             }
         }
 
-        public void Mouse_Moved(object sender, MouseMoveEventArgs e)
+        public void SetPlayersFraction(ref Fraction fr)
         {
-            
+            this.fr = fr;
         }
 
         public void Key_Pressed(object sender, KeyEventArgs e)
         {
+            if (fr != null)
             switch (e.Code)
             {
                 case Keyboard.Key.Escape:
                     fr.DeselectAll();
                     break;
                 case Keyboard.Key.D:
-                    fr.UnlockEntities();
+                    fr.StopEntities();
+                    break;
+                case Keyboard.Key.S:
+                    fr.StopAllEntities();
                     break;
             }
         }
+
+ 
     }
 }

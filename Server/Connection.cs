@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -30,6 +31,8 @@ namespace Struggle
         ConcurrentDictionary<int, Connection> refConnections;
         IdMap refIds;
 
+    
+
         public byte[] data;
 
         public int fraction { get; private set; }
@@ -41,7 +44,7 @@ namespace Struggle
             this.socket = socket;
             this.id = id;
             this.fraction = fraction;
-            data = new byte[128];
+            data = new byte[2000]; //128
             nick = "Player";
         }
 
@@ -62,7 +65,6 @@ namespace Struggle
 
             refIds.releaseId(c.id);
             refConnections.TryRemove(id, out c);
-
             socket.Close();
             socket.Dispose();
         }

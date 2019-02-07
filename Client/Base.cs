@@ -7,7 +7,7 @@ namespace Struggle
     class Base : Entity
     {
         
-        public Base(Vector2f crd, uint m = 5) : base(crd,  m)
+        public Base(Vector2f crd, uint id, uint m) : base(crd, id, m)
         {
         }
 

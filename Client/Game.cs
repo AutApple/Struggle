@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Struggle
 {
@@ -11,15 +12,33 @@ namespace Struggle
     {
         List<Fraction> fractions;
         EventHandler ec;
-                
+        Client client;
+        List<Color> fractionColors;
+        List<uint> selectedEntities;
+
+        public Client Client
+        {
+            get
+            {
+                return client;
+            }
+        }
+
+        public List<uint> SelectedEntities
+        {
+            get
+            {
+                return selectedEntities;
+            }
+        }
+
         public void Run(RenderWindow app)
-        { 
-            Fraction playersFraction = fractions[0];
-            ec = new EventHandler(ref playersFraction);
+        {
+            
+            ec = new EventHandler();
 
             app.Closed += ec.Window_Closed;
             app.MouseButtonPressed += ec.Mouse_Pressed;
-            app.MouseMoved += ec.Mouse_Moved;
             app.MouseButtonReleased += ec.Mouse_Released;
             app.KeyPressed += ec.Key_Pressed;
 
@@ -35,39 +54,59 @@ namespace Struggle
 
         public void SetInfo(GameCommon gc)
         {
-            foreach(FractionCommon fc in gc.fractions)
+           
+            List<Fraction> nf = new List<Fraction>();
+
+            int count = 0;
+            foreach(FractionCommon fc in gc.Fractions)
             {
-                Fraction f = new Fraction(Color.Blue, 0, this);
+                Fraction f = new Fraction(fractionColors[count], this);
+                count++;
+
                 foreach(EntityCommon ec in fc.entities)
                 {
-                    Entity e = new Entity(new Vector2f(ec.x, ec.y), ec.mass);
+                    Entity e = new Entity(new Vector2f(ec.x, ec.y), ec.id, ec.mass);
+                    e.SetFraction(f);
+                  /*  if (fractions.Count > 0)
+                        foreach (Entity es in fractions[gc.FractionId].entities)
+                            if (es.Id == e.Id)
+                            {
+                                if (es.Selected)
+                                     
+                                if (es.DrawMoving)
+                                    e.DrawMoving = true;
+                            }*/
+
                     f.AddEntity(e);
                 }
-                fractions.Add(f);
+                nf.Add(f);
             }
-        }
+            fractions = nf;
+
+            Fraction pf = fractions[gc.FractionId];
+            ec.SetPlayersFraction(ref pf);
+
+         }
+
         public Game()
         {
             fractions = new List<Fraction>();
-            /*fractions.Add(new Fraction(Color.Blue, 0, this));
-            fractions.Add(new Fraction(Color.Red, 1, this));
-            fractions.Add(new Fraction(Color.Green, 2, this));
-            fractions.Add(new Fraction(Color.Magenta, 3, this));
+            fractionColors = new List<Color>();
+            selectedEntities = new List<uint>();
 
-            fractions.Add(new Fraction(new Color(128, 128, 128, 255), 4, this)); //neutral
-
-            fractions[0].AddEntity(new Warrior(new Vector2f(64, 64), 16));
-            fractions[0].AddEntity(new Warrior(new Vector2f(128, 128), 32));
-
-            fractions[0].AddEntity(new Builder(new Vector2f(255, 255), 8));
-
-            fractions[0].AddEntity(new Builder(new Vector2f(255, 305), 32));
-            fractions[0].AddEntity(new Builder(new Vector2f(400, 400), 8));
-            fractions[1].AddEntity(new Warrior(new Vector2f(576, 416), 16));
-            fractions[1].AddEntity(new Warrior(new Vector2f(512, 352), 32));
-            fractions[4].AddEntity(new BuildPlace("Warrior", 3, new Vector2f(100, 100), 32));*/
+            fractionColors.Add(Color.Blue);
+            fractionColors.Add(Color.Red);
+            fractionColors.Add(Color.Green);
+            fractionColors.Add(Color.Cyan);
         }
-        
+
+ 
+
+        public void SetClient(ref Client client)
+        {
+            this.client = client;
+        }
+
         public void Update()
         {
             foreach (Fraction f in fractions)
